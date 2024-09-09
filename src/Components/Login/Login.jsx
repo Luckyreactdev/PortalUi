@@ -1,89 +1,145 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
-import "./Login.css";
 import { axiosInstance } from "../../Helpers/Api_endpoints/Axios";
 import { Login_Url } from "../../Helpers/Endpoints/Endpoints";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../Redux/Reducers/Authslics";
-import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import "./Login.css"; // Custom styles if necessary
+
 const Login = () => {
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [eye, setEye] = useState(true); // To toggle password visibility
+  const [isLoading, setIsLoading] = useState(false); // To handle loading state
+  const [errorMessage, setErrorMessage] = useState(""); // To show errors
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handlelogin = async (e) => {
+  const togglePassword = () => {
+    setEye(!eye); // Toggle the state for showing/hiding password
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (email == "" || password == "") {
-      alert("Please fill all the fields");
-    } else {
-      try {
-        const response = await axiosInstance.post(`${Login_Url}`, {
-          email: email,
-          password: password,
-        });
-        const { token } = response.data;
-        dispatch(login(token));
-        alert("Login Successful");
-        setTimeout(() => {
-          navigate("/PortalSetup");
-        }, 2000);
-      } catch (error) {
-        alert(error.response.data.non_field_errors);
-      }
+
+    if (email === "" || password === "") {
+      setErrorMessage("Please fill in both email and password.");
+      return;
+    }
+
+    setIsLoading(true); // Start loading spinner
+    setErrorMessage(""); // Reset error message
+
+    try {
+      const response = await axiosInstance.post(`${Login_Url}`, {
+        email: email,
+        password: password,
+      });
+      const { token } = response.data;
+      dispatch(login(token));
+      navigate("/PortalSetup");
+    } catch (error) {
+      const errorResponse =
+        error.response?.data?.non_field_errors ||
+        "Login failed, please try again.";
+      setErrorMessage(errorResponse);
+    } finally {
+      setIsLoading(false); // Stop loading spinner
     }
   };
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  useEffect(() => {
-    console.log(isAuthenticated);
 
+  useEffect(() => {
     if (isAuthenticated) {
       navigate("/PortalSetup");
-    } else {
-      return;
     }
   }, [isAuthenticated, navigate]);
 
+  useEffect(() => {
+    // Automatically focus the email input when the page loads
+    document.getElementById("email").focus();
+  }, []);
+
   if (isAuthenticated) {
-    return;
+    return null;
   }
 
   return (
-    <>
-      <div className="loginform">
-        <h1>Habot Admin Login</h1>
-        <form className="login-form">
-          <div className="flex-row">
-            <input
-              id="username"
-              className="lf--input"
-              placeholder="email"
-              type="email"
-              value={email}
-              onChange={(e) => setemail(e.target.value)}
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="col-lg-4 col-md-6 col-sm-8">
+        <div className="card p-4">
+          <div className="text-center mb-4">
+            <img
+              src="https://storage.googleapis.com/varal-habot-vault-marketplace-10032022/images/updated%20trans-Habot-logo-png.png"
+              alt="Habot Admin"
+              className="img-fluid mb-2"
+              style={{ width: "150px" }}
             />
+            <h3 className="mb-1">Login</h3>
+            <p className="text-muted">Access to Portal dashboard</p>
           </div>
-          <div className="flex-row">
-            <input
-              id="password"
-              className="lf--input"
-              placeholder="Password"
-              type="password"
-              value={password}
-              onChange={(e) => setpassword(e.target.value)}
-            />
-          </div>
-          <input
-            className="lf--submit"
-            type="submit"
-            defaultValue="LOGIN"
-            onClick={handlelogin}
-          />
-        </form>
+          <form onSubmit={handleLogin}>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email Address
+              </label>
+              <input
+                id="email"
+                className="form-control"
+                placeholder="Enter your email address"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-3 position-relative">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                id="password"
+                className="form-control"
+                placeholder="Enter your password"
+                type={eye ? "password" : "text"} // Change input type based on eye state
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span
+                style={{
+                  position: "absolute",
+                  right: "15px",
+                  top: "70%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer",
+                }}
+                onClick={togglePassword} // Toggle password visibility
+              >
+                <FontAwesomeIcon icon={eye ? faEyeSlash : faEye} />{" "}
+                {/* Use Font Awesome Icons */}
+              </span>
+            </div>
+            {errorMessage && (
+              <div className="text-danger text-center mb-3">{errorMessage}</div>
+            )}
+            <div className="text-center mb-3">
+              <button
+                type="submit"
+                className="btn btn-primary w-100"
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging in..." : "Login"}{" "}
+                {/* Show loading state */}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
