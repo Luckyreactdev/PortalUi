@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "Montserrat";
+    src: url("https://storage.googleapis.com/varal-habot-vault-marketplace-10032022/fonts/Montserrat-Regular.ttf")
+        format("woff2"),
+      url("https://storage.googleapis.com/varal-habot-vault-marketplace-10032022/fonts/Montserrat-Regular.ttf")
+        format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
+  body {
+    background-color: #fff;
+    margin: 0;
+    font-family: "Montserrat";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: "Montserrat";
+  }
+  @media only screen and (max-width: 991px) {
+    .dtwidget-chat-container {
+      bottom: 75px !important;
+    }
+  }
+  .dtwidget-chatmodal-header > span {
+    font-family: "Montserrat";
+  }
+  .dtwidget-chatmodal-body > form > div > textarea,
+  .dtwidget-chatmodal-body > [data-form="dt"] > div > textarea {
+    font-family: "Montserrat";
+  }
+  .dtwidget-chatmodal-body > form > button,
+  .dtwidget-chatmodal-body > form > [data-role="button"],
+  .dtwidget-chatmodal-body > [data-form="dt"] > button,
+  .dtwidget-chatmodal-body > [data-form="dt"] > [data-role="button"] {
+    font-family: "Montserrat";
+  }
+  .dtwidget-chatmodal-footer {
+    display: none !important;
+  }
+  

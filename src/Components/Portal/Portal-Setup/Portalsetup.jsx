@@ -5,6 +5,10 @@ import { Portal_Url } from "../../../Helpers/Endpoints/Endpoints";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../Redux/Reducers/Authslics";
+import HabotAppBar from "../../Habotech/HabotAppBar/HabotAppBar";
+
+import { Tabs } from "react-bootstrap";
+import NavigationTabs from "../Tabs/Tabs";
 const Portalsetup = ({ children }) => {
   const navigate = useNavigate();
   const [portalname, setportalname] = useState("");
@@ -38,6 +42,7 @@ const Portalsetup = ({ children }) => {
   };
   return (
     <>
+      {/* <HabotAppBar /> */}
       <div className="portalparentdiv">
         <h1>Portal Initialisation</h1>
         <form action="" className="formsection">
@@ -49,7 +54,7 @@ const Portalsetup = ({ children }) => {
             onChange={(e) => setportalname(e.target.value)}
           />
           <button onClick={handleportalaction}> Submit </button>
-          <button onClick={handlelogout}>Logout</button>
+          {/* <button onClick={handlelogout}>Logout</button> */}
         </form>
       </div>
     </>

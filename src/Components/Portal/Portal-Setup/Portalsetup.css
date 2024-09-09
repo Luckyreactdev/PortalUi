@@ -1,34 +1,38 @@
-/* From Uiverse.io by JayRamoliya */ 
+/* From Uiverse.io by JayRamoliya */
 .input-style {
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #555;
-    outline: none;
-  }
-  
-  .input-style:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  }
-  
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #555;
+  outline: none;
+}
 
-  .formsection{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .formsection > button{
-    width: 10%;
-    background-color: black;
-    color: white;
-    height: 40px;
-    border-radius: 10px;
-  }
+.input-style:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
 
-  .portalparentdiv{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+.formsection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.formsection > button {
+  width: 120px;
+  background-color: #b7ceff;
+  color: white;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+}
+
+.portalparentdiv {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-inline: 30px;
+}
+
+.portalparentdiv > h1 {
+  font-size: 19px;
+}
